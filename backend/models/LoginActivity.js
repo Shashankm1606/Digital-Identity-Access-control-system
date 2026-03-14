@@ -20,6 +20,10 @@ const loginActivitySchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+    username: {
+      type: String,
+      trim: true,
+    },
     identifier: {
       type: String,
       trim: true,
@@ -30,6 +34,29 @@ const loginActivitySchema = new mongoose.Schema(
       trim: true,
     },
     userAgent: {
+      type: String,
+      trim: true,
+    },
+    deviceName: {
+      type: String,
+      trim: true,
+    },
+    browser: {
+      type: String,
+      trim: true,
+    },
+    loginStatus: {
+      type: String,
+      enum: ['success', 'failed', 'blocked'],
+    },
+    alertType: {
+      type: String,
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+    device: {
       type: String,
       trim: true,
     },
@@ -48,6 +75,7 @@ const loginActivitySchema = new mongoose.Schema(
 
 loginActivitySchema.index({ userId: 1, loginAt: -1 });
 loginActivitySchema.index({ loginAt: -1 });
+loginActivitySchema.index({ status: 1, loginAt: -1 });
 
 const LoginActivity = mongoose.model('LoginActivity', loginActivitySchema);
 

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>ObsidianAuth - Digital Identity & Access Control</title>
         <link rel="stylesheet" href="styles.css">
 </head>
@@ -93,19 +94,19 @@
                     <div class="card" style="width: 160px; text-align: center;">
                         <p style="font-weight: 600;">Client</p>
                     </div>
-                    <div style="color: #2563EB; font-size: 24px;">â†’</div>
+                    <div style="color: #2563EB; font-size: 24px;">→</div>
                     <div class="card" style="width: 160px; text-align: center;">
                         <p style="font-weight: 600;">Authentication</p>
                     </div>
-                    <div style="color: #2563EB; font-size: 24px;">â†’</div>
+                    <div style="color: #2563EB; font-size: 24px;">→</div>
                     <div class="card" style="width: 160px; text-align: center;">
                         <p style="font-weight: 600;">Authorization</p>
                     </div>
-                    <div style="color: #2563EB; font-size: 24px;">â†’</div>
+                    <div style="color: #2563EB; font-size: 24px;">→</div>
                     <div class="card" style="width: 160px; text-align: center;">
                         <p style="font-weight: 600;">Application</p>
                     </div>
-                    <div style="color: #2563EB; font-size: 24px;">â†’</div>
+                    <div style="color: #2563EB; font-size: 24px;">→</div>
                     <div class="card" style="width: 160px; text-align: center;">
                         <p style="font-weight: 600;">Database</p>
                     </div>
@@ -162,7 +163,7 @@
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <p>Â© 2026 ObsidianAuth. All rights reserved. Enterprise-grade security solutions.</p>
+                    <p>© 2026 ObsidianAuth. All rights reserved. Enterprise-grade security solutions.</p>
                 </div>
             </div>
         </footer>
@@ -215,7 +216,7 @@
                             <input type="checkbox" id="remember-me">
                             <span style="font-size: 14px;">Remember me</span>
                         </label>
-                        <a href="#" style="color: #2563EB; font-size: 14px; text-decoration: none;">Forgot Password?</a>
+                        <a href="#" onclick="navigate('forgot-password'); return false;" style="color: #2563EB; font-size: 14px; text-decoration: none;">Forgot Password?</a>
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
@@ -230,6 +231,133 @@
 
                 <div style="margin-top: 24px; text-align: center;">
                     <p style="color: #9CA3AF; font-size: 14px;">Protected by enterprise-grade encryption</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Page -->
+    <div id="forgot-password-page" class="page hidden">
+        <div class="auth-page">
+            <div class="auth-bg-pattern">
+                <div class="bg-circle" style="width: 256px; height: 256px; top: 80px; left: 80px;"></div>
+                <div class="bg-circle" style="width: 384px; height: 384px; bottom: 80px; right: 80px;"></div>
+            </div>
+
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="sidebar-brand" onclick="navigate('landing')" style="justify-content: center; margin-bottom: 24px; cursor: pointer;">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <div style="text-align: left;">
+                            <h1 style="font-size: 24px;">ObsidianAuth</h1>
+                            <p style="font-size: 12px; color: #9CA3AF;">Digital Identity & Access Control</p>
+                        </div>
+                    </div>
+                    <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 8px;">Reset your password</h2>
+                    <p style="color: #9CA3AF;">Enter your email to receive a reset link/token</p>
+                </div>
+
+                <form onsubmit="handleForgotPassword(event)" id="forgot-form">
+                    <div id="forgot-error" class="alert alert-danger hidden">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p id="forgot-error-text">Please enter your email</p>
+                    </div>
+
+                    <div id="forgot-success" class="alert alert-success hidden">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <p id="forgot-success-text">If an account exists, a reset link has been created.</p>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Email</label>
+                        <input type="email" class="input" placeholder="you@company.com" id="forgot-email">
+                    </div>
+
+                    <div id="forgot-token-container" class="hidden" style="margin-bottom: 16px;">
+                        <label class="input-label">Reset Token (dev)</label>
+                        <input type="text" class="input" id="forgot-reset-token" readonly>
+                        <p style="color: #9CA3AF; font-size: 12px; margin-top: 8px;">
+                            In production this token should be delivered via email/SMS.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Request reset</button>
+                </form>
+
+                <div style="margin-top: 16px; display: flex; gap: 12px;">
+                    <button class="btn btn-outline" style="flex: 1;" onclick="navigate('login')">Back to Login</button>
+                    <button class="btn btn-outline" style="flex: 1;" onclick="navigate('reset-password')">I have a token</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Password Page -->
+    <div id="reset-password-page" class="page hidden">
+        <div class="auth-page">
+            <div class="auth-bg-pattern">
+                <div class="bg-circle" style="width: 256px; height: 256px; top: 80px; left: 80px;"></div>
+                <div class="bg-circle" style="width: 384px; height: 384px; bottom: 80px; right: 80px;"></div>
+            </div>
+
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="sidebar-brand" onclick="navigate('landing')" style="justify-content: center; margin-bottom: 24px; cursor: pointer;">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <div style="text-align: left;">
+                            <h1 style="font-size: 24px;">ObsidianAuth</h1>
+                            <p style="font-size: 12px; color: #9CA3AF;">Digital Identity & Access Control</p>
+                        </div>
+                    </div>
+                    <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 8px;">Set a new password</h2>
+                    <p style="color: #9CA3AF;">Paste your reset token and choose a new password</p>
+                </div>
+
+                <form onsubmit="handleResetPassword(event)" id="reset-form">
+                    <div id="reset-error" class="alert alert-danger hidden">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p id="reset-error-text">Reset failed</p>
+                    </div>
+
+                    <div id="reset-success" class="alert alert-success hidden">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <p id="reset-success-text">Password reset successful. Please log in.</p>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Reset Token</label>
+                        <input type="text" class="input" placeholder="Paste token here" id="reset-token">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">New Password</label>
+                        <input type="password" class="input" placeholder="********" id="reset-password">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Confirm New Password</label>
+                        <input type="password" class="input" placeholder="********" id="reset-confirm-password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Update password</button>
+                </form>
+
+                <div style="margin-top: 16px; text-align: center;">
+                    <a href="#" onclick="navigate('login'); return false;" style="color: #2563EB; font-size: 14px; text-decoration: none;">
+                        Back to Login
+                    </a>
                 </div>
             </div>
         </div>
@@ -612,17 +740,20 @@
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
                                     <div class="input-group">
                                         <label class="input-label">Current Password</label>
-                                        <input type="password" class="input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
+                                        <input type="password" class="input" placeholder="••••••••">
                                     </div>
                                     <div class="input-group">
                                         <label class="input-label">New Password</label>
-                                        <input type="password" class="input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
+                                        <input type="password" class="input" placeholder="••••••••">
                                     </div>
                                     <div class="input-group">
                                         <label class="input-label">Confirm New Password</label>
-                                        <input type="password" class="input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
+                                        <input type="password" class="input" placeholder="••••••••">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Update Password</button>
+                                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                        <button type="submit" class="btn btn-primary">Update Password</button>
+                                        <button type="button" class="btn btn-outline" onclick="handleSendResetEmail()">Send Password Reset Email</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -712,10 +843,12 @@
                 </div>
 
                 <div class="content-area">
-                    <div class="mb-8">
-                        <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Admin Dashboard</h1>
-                        <p style="color: #9CA3AF;">Security Command Center</p>
-                    </div>
+                    <!-- Admin Dashboard Overview Section -->
+                    <div id="admin-section-overview">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Admin Dashboard</h1>
+                            <p style="color: #9CA3AF;">Security Command Center</p>
+                        </div>
 
                     <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
                         <div class="stat-card">
@@ -747,12 +880,12 @@
                         </div>
                         <div class="stat-card">
                             <div class="flex-between mb-4">
-                                <h3 class="text-sm">Blocked Accounts</h3>
+                                <h3 class="text-sm">Blocked Logins</h3>
                                 <svg width="20" height="20" fill="none" stroke="#EF4444" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
                                 </svg>
                             </div>
-                            <p id="admin-blocked-accounts-value" class="stat-value">-</p>
+                            <p id="admin-blocked-logins-value" class="stat-value">-</p>
                         </div>
                     </div>
 
@@ -761,34 +894,8 @@
                             <div class="card-header">
                                 <h3 class="card-title">Security Alerts</h3>
                             </div>
-                            <div style="display: flex; flex-direction: column; gap: 16px;">
-                                <div class="alert alert-warning">
-                                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                                    </svg>
-                                    <div>
-                                        <p>Suspicious login attempt from unknown IP</p>
-                                        <p class="text-sm" style="margin-top: 4px;">5 minutes ago</p>
-                                    </div>
-                                </div>
-                                <div class="alert alert-danger">
-                                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                                    </svg>
-                                    <div>
-                                        <p>Multiple failed login attempts detected</p>
-                                        <p class="text-sm" style="margin-top: 4px;">12 minutes ago</p>
-                                    </div>
-                                </div>
-                                <div class="alert alert-info">
-                                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                                    </svg>
-                                    <div>
-                                        <p id="admin-latest-login-alert">Waiting for login activity...</p>
-                                        <p id="admin-latest-login-time" class="text-sm" style="margin-top: 4px;">-</p>
-                                    </div>
-                                </div>
+                            <div id="admin-alerts-body" style="display: flex; flex-direction: column; gap: 12px;">
+                                <div class="text-secondary">No security alerts</div>
                             </div>
                         </div>
 
@@ -849,6 +956,112 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+
+                    </div>
+
+                    <!-- Manage Users Section -->
+                    <div id="admin-section-manage-users" class="admin-section hidden">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Manage Users</h1>
+                            <p style="color: #9CA3AF;">View and manage user accounts</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">All Users</h3>
+                            </div>
+                            <div id="manage-users-content">
+                                <div style="text-align: center; padding: 40px; color: #9CA3AF;">
+                                    <p>Loading users...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Role Management Section -->
+                    <div id="admin-section-role-management" class="admin-section hidden">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Role Management</h1>
+                            <p style="color: #9CA3AF;">Manage user roles and permissions</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Roles</h3>
+                            </div>
+                            <div id="role-management-content">
+                                <div style="text-align: center; padding: 40px; color: #9CA3AF;">
+                                    <p>Role management functionality</p>
+                                    <p style="margin-top: 8px;">Admin, Manager, User roles available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logs Section -->
+                    <div id="admin-section-logs" class="admin-section hidden">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Logs</h1>
+                            <p style="color: #9CA3AF;">View login activity and security logs</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                                <h3 class="card-title">Activity Logs</h3>
+                                <div style="display: flex; gap: 12px;">
+                                    <select id="logs-filter-status" class="input" style="width: auto;" onchange="filterLogs()">
+                                        <option value="">All Status</option>
+                                        <option value="success">Success</option>
+                                        <option value="failed">Failed</option>
+                                        <option value="blocked">Blocked</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>IP Address</th>
+                                        <th>Device</th>
+                                        <th>Time</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-logs-body">
+                                    <tr>
+                                        <td colspan="5" style="color: #9CA3AF;">No logs available</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Security Monitoring Section -->
+                    <div id="admin-section-security-monitoring" class="admin-section hidden">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Security Monitoring</h1>
+                            <p style="color: #9CA3AF;">Monitor security alerts and suspicious activity</p>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Security Alerts</h3>
+                                </div>
+                                <div id="security-alerts-body">
+                                    <div style="text-align: center; padding: 40px; color: #9CA3AF;">
+                                        <p>No security alerts</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Blocked Accounts</h3>
+                                </div>
+                                <div id="blocked-accounts-body">
+                                    <div style="text-align: center; padding: 40px; color: #9CA3AF;">
+                                        <p>No blocked accounts</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>

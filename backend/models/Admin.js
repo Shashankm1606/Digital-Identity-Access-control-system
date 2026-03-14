@@ -20,6 +20,22 @@ const adminSchema = new mongoose.Schema({
     minlength: 6,
     select: false,
   },
+  passwordChangedAt: {
+    type: Date,
+    default: null,
+  },
+  passwordResetTokenHash: {
+    type: String,
+    select: false,
+  },
+  passwordResetExpiresAt: {
+    type: Date,
+    select: false,
+  },
+  passwordResetRequestedAt: {
+    type: Date,
+    select: false,
+  },
   role: {
     type: String,
     default: 'admin',
