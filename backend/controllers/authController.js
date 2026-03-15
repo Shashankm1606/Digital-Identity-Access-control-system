@@ -145,7 +145,9 @@ const trackLoginActivity = async (req, payload) => {
       deviceName,
       browser,
       status: payload.status,
+      loginStatus: payload.status,
       loginAt: new Date(),
+      timestamp: new Date(),
     });
   } catch (error) {
     console.error(`Login activity tracking failed: ${error.message}`);
@@ -198,7 +200,7 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    const { identifier, email, password } = req.body;
+    const { identifier, email, password, loginType } = req.body;
     const loginIdentifier = (identifier || email || '').trim();
 
     if (!loginIdentifier || !password) {
@@ -221,6 +223,15 @@ const login = async (req, res, next) => {
       return res.status(403).json({
         success: false,
         message: 'Account is blocked due to multiple failed login attempts',
+      });
+    }
+
+    // Validate login type - Admin login requires admin role
+    if (loginType === 'admin' && user.role !== 'admin') {
+      await trackLoginActivity(req, { identifier: loginIdentifier, status: 'failed', user });
+      return res.status(403).json({
+        success: false,
+        message: 'ACCESS DENIED — ADMIN CREDENTIALS REQUIRED',
       });
     }
 

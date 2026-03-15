@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div style="display: flex; gap: 16px;">
-                    <button class="btn btn-outline" onclick="navigate('login')">Login</button>
-                    <button class="btn btn-primary" onclick="navigate('register')">Get Started</button>
+                    <button class="btn btn-outline" onclick="showLoginModal('admin')">LOGIN AS ADMIN</button>
+                    <button class="btn btn-primary" onclick="showLoginModal('user')">LOGIN AS USER</button>
                 </div>
             </div>
         </nav>
@@ -85,7 +85,7 @@
         <!-- Architecture -->
         <section style="padding: 96px 0; background: #161B22;">
             <div class="container">
-                <div style="text-center; margin-bottom: 64px;">
+                <div style="text-align: center; margin-bottom: 64px;">
                     <h2 style="font-size: 32px; font-weight: bold; margin-bottom: 16px;">Zero Trust Architecture</h2>
                     <p style="color: #9CA3AF;">Multi-layered security system with continuous verification</p>
                 </div>
@@ -194,6 +194,15 @@
                 </div>
 
                 <form onsubmit="handleLogin(event)" id="login-form">
+                    <input type="hidden" id="login-type" value="">
+                    
+                    <div id="login-type-banner" class="alert alert-info hidden" style="margin-bottom: 16px;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p id="login-type-text"></p>
+                    </div>
+
                     <div id="login-error" class="alert alert-danger hidden">
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -208,7 +217,15 @@
 
                     <div class="input-group">
                         <label class="input-label">Password</label>
-                        <input type="password" class="input" placeholder="********" id="login-password">
+                        <div class="input-wrapper">
+                            <input type="password" class="input" placeholder="********" id="login-password" autocomplete="new-password">
+                            <button type="button" class="eye-toggle" onclick="togglePassword('login-password', this)">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
@@ -343,12 +360,28 @@
 
                     <div class="input-group">
                         <label class="input-label">New Password</label>
-                        <input type="password" class="input" placeholder="********" id="reset-password">
+                        <div class="input-wrapper">
+                            <input type="password" class="input" placeholder="********" id="reset-password" autocomplete="new-password">
+                            <button type="button" class="eye-toggle" onclick="togglePassword('reset-password', this)">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="input-group">
                         <label class="input-label">Confirm New Password</label>
-                        <input type="password" class="input" placeholder="********" id="reset-confirm-password">
+                        <div class="input-wrapper">
+                            <input type="password" class="input" placeholder="********" id="reset-confirm-password" autocomplete="new-password">
+                            <button type="button" class="eye-toggle" onclick="togglePassword('reset-confirm-password', this)">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Update password</button>
@@ -405,7 +438,15 @@
 
                     <div class="input-group">
                         <label class="input-label">Password</label>
-                        <input type="password" class="input" placeholder="********" id="register-password" oninput="updatePasswordStrength(this.value)">
+                        <div class="input-wrapper">
+                            <input type="password" class="input" placeholder="********" id="register-password" autocomplete="new-password" oninput="updatePasswordStrength(this.value)">
+                            <button type="button" class="eye-toggle" onclick="togglePassword('register-password', this)">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </div>
                         <div id="password-strength-container" class="hidden" style="margin-top: 8px;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                                 <span style="font-size: 14px; color: #9CA3AF;">Password Strength</span>
@@ -419,7 +460,15 @@
 
                     <div class="input-group">
                         <label class="input-label">Confirm Password</label>
-                        <input type="password" class="input" placeholder="********" id="register-confirm-password">
+                        <div class="input-wrapper">
+                            <input type="password" class="input" placeholder="********" id="register-confirm-password" autocomplete="new-password">
+                            <button type="button" class="eye-toggle" onclick="togglePassword('register-confirm-password', this)">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="input-group">
@@ -481,6 +530,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
                             <span>Profile</span>
+                        </a></li>
+                        <li><a href="#" onclick="navigate('user-tasks')">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                            </svg>
+                            <span>Tasks</span>
                         </a></li>
                     </ul>
                 </nav>
@@ -781,35 +836,41 @@
                 
                 <nav class="sidebar-nav">
                     <ul>
-                        <li><a href="#" class="active" onclick="navigate('admin-dashboard')">
+                        <li><a href="#" class="active" onclick="showAdminPage('admin-home')" data-page="admin-home">
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                             </svg>
                             <span>Admin Dashboard</span>
                         </a></li>
-                        <li><a href="#" onclick="navigate('manage-users')">
+                        <li><a href="#" onclick="showAdminPage('admin-manage-users')" data-page="admin-manage-users">
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                             </svg>
                             <span>Manage Users</span>
                         </a></li>
-                        <li><a href="#" onclick="navigate('role-management')">
+                        <li><a href="#" onclick="showAdminPage('admin-role-mgmt')" data-page="admin-role-mgmt">
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
                             </svg>
                             <span>Role Management</span>
                         </a></li>
-                        <li><a href="#" onclick="navigate('logs')">
+                        <li><a href="#" onclick="showAdminPage('admin-logs')" data-page="admin-logs">
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                             <span>Logs</span>
                         </a></li>
-                        <li><a href="#" onclick="navigate('security-monitoring')">
+                        <li><a href="#" onclick="showAdminPage('admin-security')" data-page="admin-security">
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                             </svg>
                             <span>Security Monitoring</span>
+                        </a></li>
+                        <li><a href="#" onclick="showAdminPage('admin-create-admin')" data-page="admin-create-admin">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                            </svg>
+                            <span>Create Admin</span>
                         </a></li>
                     </ul>
                 </nav>
@@ -833,18 +894,30 @@
                         <span style="position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; background: #EF4444; border-radius: 50%;"></span>
                     </button>
                     
-                    <div style="display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 8px 12px; border-radius: 8px;">
-                        <div id="admin-navbar-initial" style="width: 32px; height: 32px; border-radius: 50%; background: #2563EB; display: flex; align-items: center; justify-content: center; color: #E5E7EB;">-</div>
-                        <span id="admin-navbar-name">-</span>
-                        <svg width="16" height="16" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
+                    <div class="profile-dropdown" style="position: relative;">
+                        <div id="admin-profile-btn" onclick="toggleAdminProfileDropdown()" style="display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 8px 12px; border-radius: 8px; transition: background 0.2s;">
+                            <div id="admin-navbar-initial" style="width: 32px; height: 32px; border-radius: 50%; background: #2563EB; display: flex; align-items: center; justify-content: center; color: #E5E7EB;">-</div>
+                            <span id="admin-navbar-name">-</span>
+                            <svg width="16" height="16" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div id="admin-profile-dropdown" class="profile-dropdown-content hidden" style="position: absolute; right: 0; top: 100%; margin-top: 8px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 4px; min-width: 200px; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                            <div style="padding: 16px; border-bottom: 1px solid var(--border-color);">
+                                <p id="admin-profile-name" style="font-weight: bold; color: var(--text-primary);">-</p>
+                                <p id="admin-profile-email" style="font-size: 12px; color: var(--text-secondary);">-</p>
+                                <p id="admin-profile-role" style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-primary); margin-top: 4px;">ADMIN</p>
+                            </div>
+                            <div style="padding: 8px;">
+                                <button onclick="handleLogout(event)" class="btn btn-danger btn-sm" style="width: 100%;">LOGOUT</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="content-area">
                     <!-- Admin Dashboard Overview Section -->
-                    <div id="admin-section-overview">
+                    <div id="admin-home" class="admin-page">
                         <div class="mb-8">
                             <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Admin Dashboard</h1>
                             <p style="color: #9CA3AF;">Security Command Center</p>
@@ -961,7 +1034,7 @@
                     </div>
 
                     <!-- Manage Users Section -->
-                    <div id="admin-section-manage-users" class="admin-section hidden">
+                    <div id="admin-manage-users" class="admin-page" style="display:none">
                         <div class="mb-8">
                             <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Manage Users</h1>
                             <p style="color: #9CA3AF;">View and manage user accounts</p>
@@ -979,7 +1052,7 @@
                     </div>
 
                     <!-- Role Management Section -->
-                    <div id="admin-section-role-management" class="admin-section hidden">
+                    <div id="admin-role-mgmt" class="admin-page" style="display:none">
                         <div class="mb-8">
                             <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Role Management</h1>
                             <p style="color: #9CA3AF;">Manage user roles and permissions</p>
@@ -998,7 +1071,7 @@
                     </div>
 
                     <!-- Logs Section -->
-                    <div id="admin-section-logs" class="admin-section hidden">
+                    <div id="admin-logs" class="admin-page" style="display:none">
                         <div class="mb-8">
                             <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Logs</h1>
                             <p style="color: #9CA3AF;">View login activity and security logs</p>
@@ -1035,7 +1108,7 @@
                     </div>
 
                     <!-- Security Monitoring Section -->
-                    <div id="admin-section-security-monitoring" class="admin-section hidden">
+                    <div id="admin-security" class="admin-page" style="display:none">
                         <div class="mb-8">
                             <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Security Monitoring</h1>
                             <p style="color: #9CA3AF;">Monitor security alerts and suspicious activity</p>
@@ -1060,6 +1133,631 @@
                                         <p>No blocked accounts</p>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- Create Admin Section -->
+                    <div id="admin-create-admin" class="admin-page" style="display:none">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Create Admin Account</h1>
+                            <p style="color: #9CA3AF;">Create new admin or manager accounts</p>
+                        </div>
+                        <div class="card" style="max-width: 800px;">
+                            <div class="card-header">
+                                <h3 class="card-title">NEW ACCOUNT</h3>
+                            </div>
+                            <form onsubmit="handleCreateAdmin(event)">
+                                <div id="create-admin-error" class="alert alert-danger hidden" style="margin-bottom: 16px;">
+                                    <p id="create-admin-error-text"></p>
+                                </div>
+                                <div id="create-admin-success" class="alert alert-success hidden" style="margin-bottom: 16px;">
+                                    <p id="create-admin-success-text"></p>
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label">FULL NAME *</label>
+                                    <input type="text" class="input" id="admin-fullname" placeholder="Enter full name" required>
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label">USERNAME *</label>
+                                    <input type="text" class="input" id="admin-username" placeholder="Enter username" required onblur="checkUsernameAvailability()">
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label">EMAIL *</label>
+                                    <input type="email" class="input" id="admin-email" placeholder="Enter email address" required onblur="checkEmailAvailability()">
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label">PASSWORD *</label>
+                                    <div class="input-wrapper">
+                                        <input type="password" class="input" id="admin-password" placeholder="Enter password (min 8 chars)" required>
+                                        <button type="button" class="eye-toggle" onclick="togglePassword('admin-password', this)">
+                                            <svg viewBox="0 0 24 24" width="16" height="16">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                                <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label">CONFIRM PASSWORD *</label>
+                                    <div class="input-wrapper">
+                                        <input type="password" class="input" id="admin-confirm-password" placeholder="Confirm password" required>
+                                        <button type="button" class="eye-toggle" onclick="togglePassword('admin-confirm-password', this)">
+                                            <svg viewBox="0 0 24 24" width="16" height="16">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                                <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label">ROLE *</label>
+                                    <select class="input" id="admin-role" required>
+                                        <option value="">Select role</option>
+                                        <option value="admin">ADMIN</option>
+                                        <option value="manager">MANAGER</option>
+                                    </select>
+                                </div>
+                                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                                    <button type="submit" class="btn btn-primary">CREATE ACCOUNT</button>
+                                    <button type="button" class="btn btn-outline" onclick="showAdminPage('admin-home')">CANCEL</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- User Tasks Page -->
+    <div id="user-tasks-page" class="page hidden">
+        <div class="app-layout">
+            <aside class="sidebar">
+                <div class="sidebar-header" onclick="navigate('landing')">
+                    <div class="sidebar-brand">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <div>
+                            <h2 style="font-size: 16px;">ObsidianAuth</h2>
+                            <p style="font-size: 12px; color: #9CA3AF;">Identity & Access</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li><a href="#" onclick="navigate('user-dashboard')">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a></li>
+                        <li><a href="#" onclick="navigate('profile')">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            <span>Profile</span>
+                        </a></li>
+                        <li><a href="#" class="active" onclick="navigate('user-tasks')">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                            </svg>
+                            <span>Tasks</span>
+                        </a></li>
+                    </ul>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <a href="#" onclick="handleLogout(event)" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #EF4444; text-decoration: none; transition: all 0.2s;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="navbar">
+                    <button style="position: relative; padding: 8px; background: transparent; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s;">
+                        <svg width="20" height="20" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                        <span style="position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; background: #EF4444; border-radius: 50%;"></span>
+                    </button>
+                    
+                    <div style="display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 8px 12px; border-radius: 8px; transition: background 0.2s;">
+                        <div id="tasks-navbar-initial" style="width: 32px; height: 32px; border-radius: 50%; background: #2563EB; display: flex; align-items: center; justify-content: center; color: #E5E7EB;">-</div>
+                        <span id="tasks-navbar-name">-</span>
+                        <svg width="16" height="16" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="content-area">
+                    <div class="page-header">
+                        <h1>// TASK_MANAGER</h1>
+                        <p class="page-subtitle">Pending and completed task queue</p>
+                    </div>
+
+                    <!-- Add Task Form -->
+                    <div class="card add-task-card">
+                        <h3 class="section-title">+ ADD_NEW_TASK</h3>
+                        <div class="form-row">
+                            <input type="text" id="task-title-input" placeholder="TASK_TITLE..." class="input">
+                            <select id="task-priority-input" class="form-select">
+                                <option value="low">LOW_PRIORITY</option>
+                                <option value="medium">MED_PRIORITY</option>
+                                <option value="high">HIGH_PRIORITY</option>
+                            </select>
+                            <input type="date" id="task-due-input" class="input">
+                            <button onclick="addTask()" class="btn btn-primary">SUBMIT</button>
+                        </div>
+                        <textarea id="task-desc-input" placeholder="TASK_DESCRIPTION..." class="form-textarea"></textarea>
+                    </div>
+
+                    <!-- Task Stats -->
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <span class="stat-value" id="pending-count">0</span>
+                            <span class="stat-label">PENDING</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="completed-count">0</span>
+                            <span class="stat-label">COMPLETED</span>
+                        </div>
+                    </div>
+
+                    <!-- Pending Tasks -->
+                    <div class="section-block">
+                        <h2 class="section-title">⏳ PENDING_TASKS</h2>
+                        <div id="pending-tasks-list" class="tasks-list">
+                            <p class="empty-state">NO PENDING TASKS</p>
+                        </div>
+                    </div>
+
+                    <!-- Completed Tasks -->
+                    <div class="section-block">
+                        <h2 class="section-title">✓ COMPLETED_TASKS</h2>
+                        <div id="completed-tasks-list" class="tasks-list">
+                            <p class="empty-state">NO COMPLETED TASKS</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Manager Dashboard -->
+    <div id="manager-dashboard-page" class="page hidden">
+        <div class="app-layout">
+            <aside class="sidebar">
+                <div class="sidebar-header" onclick="navigate('landing')">
+                    <div class="sidebar-brand">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <div>
+                            <h2 style="font-size: 16px;">ObsidianAuth</h2>
+                            <p style="font-size: 12px; color: #9CA3AF;">Identity & Access</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li><a href="#" class="active" onclick="showManagerPage('manager-home')" data-manager-page="manager-home">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a></li>
+                        <li><a href="#" onclick="showManagerPage('manager-assign-task')" data-manager-page="manager-assign-task">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            <span>Assign Task</span>
+                        </a></li>
+                        <li><a href="#" onclick="showManagerPage('manager-manage-tasks')" data-manager-page="manager-manage-tasks">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                            </svg>
+                            <span>Manage Tasks</span>
+                        </a></li>
+                        <li><a href="#" onclick="showManagerPage('manager-team-members')" data-manager-page="manager-team-members">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                            <span>Team Members</span>
+                        </a></li>
+                        <li><a href="#" onclick="showManagerPage('manager-activity-logs')" data-manager-page="manager-activity-logs">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <span>Activity Logs</span>
+                        </a></li>
+                        <li><a href="#" onclick="showManagerPage('manager-reports')" data-manager-page="manager-reports">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <span>Reports</span>
+                        </a></li>
+                        <li><a href="#" onclick="showManagerPage('manager-notifications')" data-manager-page="manager-notifications">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                            <span>Notifications</span>
+                        </a></li>
+                        <li><a href="#" onclick="showManagerPage('manager-profile')" data-manager-page="manager-profile">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            <span>Profile</span>
+                        </a></li>
+                    </ul>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <a href="#" onclick="handleLogout(event)" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #EF4444; text-decoration: none;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="navbar">
+                    <button style="position: relative; padding: 8px; background: transparent; border: none; border-radius: 8px; cursor: pointer;">
+                        <svg width="20" height="20" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                        <span style="position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; background: #EF4444; border-radius: 50%;"></span>
+                    </button>
+                    
+                    <div class="profile-dropdown" style="position: relative;">
+                        <div id="manager-profile-btn" onclick="toggleManagerProfileDropdown()" style="display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 8px 12px; border-radius: 8px; transition: background 0.2s;">
+                            <div id="manager-navbar-initial" style="width: 32px; height: 32px; border-radius: 50%; background: #9d4edd; display: flex; align-items: center; justify-content: center; color: #E5E7EB;">-</div>
+                            <span id="manager-navbar-name">-</span>
+                            <svg width="16" height="16" fill="none" stroke="#9CA3AF" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div id="manager-profile-dropdown" class="profile-dropdown-content hidden" style="position: absolute; right: 0; top: 100%; margin-top: 8px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 4px; min-width: 200px; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                            <div style="padding: 16px; border-bottom: 1px solid var(--border-color);">
+                                <p id="manager-profile-name" style="font-weight: bold; color: var(--text-primary);">-</p>
+                                <p id="manager-profile-email" style="font-size: 12px; color: var(--text-secondary);">-</p>
+                                <p id="manager-profile-role" style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #9d4edd; margin-top: 4px;">MANAGER</p>
+                            </div>
+                            <div style="padding: 8px;">
+                                <button onclick="handleLogout(event)" class="btn btn-danger btn-sm" style="width: 100%;">LOGOUT</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-area">
+                    <!-- Manager Home -->
+                    <div id="manager-home" class="manager-page">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Manager Dashboard</h1>
+                            <p style="color: #9CA3AF;">Team Management Command Center</p>
+                        </div>
+
+                        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                            <div class="stat-card">
+                                <h3 class="text-sm">TEAM MEMBERS</h3>
+                                <p id="manager-team-members-value" class="stat-value">-</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 class="text-sm">TASKS ASSIGNED</h3>
+                                <p id="manager-tasks-assigned-value" class="stat-value">-</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 class="text-sm">TASKS COMPLETED</h3>
+                                <p id="manager-tasks-completed-value" class="stat-value">-</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 class="text-sm">PENDING TASKS</h3>
+                                <p id="manager-pending-tasks-value" class="stat-value">-</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 class="text-sm">OVERDUE TASKS</h3>
+                                <p id="manager-overdue-tasks-value" class="stat-value">-</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">RECENT ACTIVITIES</h3>
+                            </div>
+                            <div id="manager-recent-activities-body">
+                                <div style="text-align: center; padding: 40px; color: #9CA3AF;">
+                                    <p>No recent activities</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manager Assign Task -->
+                    <div id="manager-assign-task" class="manager-page" style="display:none">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Assign Task</h1>
+                            <p style="color: #9CA3AF;">Create and assign tasks to team members</p>
+                        </div>
+                        <div class="card" style="max-width: 800px;">
+                            <div class="card-header">
+                                <h3 class="card-title">NEW TASK</h3>
+                            </div>
+                            <form onsubmit="handleAssignTask(event)">
+                                <div class="input-group">
+                                    <label class="input-label">TASK TITLE *</label>
+                                    <input type="text" class="input" id="task-title-input" placeholder="Enter task title" required>
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label">DESCRIPTION</label>
+                                    <textarea class="input" id="task-desc-input" rows="4" placeholder="Enter task description"></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label">ASSIGN TO *</label>
+                                    <select class="input" id="task-assign-to-input" required>
+                                        <option value="">Select team member</option>
+                                    </select>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                    <div class="input-group">
+                                        <label class="input-label">PRIORITY *</label>
+                                        <select class="input" id="task-priority-input" required>
+                                            <option value="low">LOW</option>
+                                            <option value="medium" selected>MEDIUM</option>
+                                            <option value="high">HIGH</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label">DEADLINE *</label>
+                                        <input type="date" class="input" id="task-deadline-input" required>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                                    <button type="submit" class="btn btn-primary">ASSIGN TASK</button>
+                                    <button type="button" class="btn btn-outline" onclick="showManagerPage('manager-home')">CANCEL</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Manager Manage Tasks -->
+                    <div id="manager-manage-tasks" class="manager-page" style="display:none">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Manage Tasks</h1>
+                            <p style="color: #9CA3AF;">View and manage assigned tasks</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">ALL TASKS</h3>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>TASK ID</th>
+                                        <th>TITLE</th>
+                                        <th>ASSIGNED TO</th>
+                                        <th>PRIORITY</th>
+                                        <th>DEADLINE</th>
+                                        <th>STATUS</th>
+                                        <th>ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="manager-tasks-body">
+                                    <tr>
+                                        <td colspan="7" style="color: #9CA3AF; text-align: center;">Loading tasks...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Manager Team Members -->
+                    <div id="manager-team-members" class="manager-page" style="display:none">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Team Members</h1>
+                            <p style="color: #9CA3AF;">View and manage your team</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">TEAM MEMBERS</h3>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>USERNAME</th>
+                                        <th>EMAIL</th>
+                                        <th>ROLE</th>
+                                        <th>LAST LOGIN</th>
+                                        <th>TASKS ASSIGNED</th>
+                                        <th>ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="manager-team-body">
+                                    <tr>
+                                        <td colspan="6" style="color: #9CA3AF; text-align: center;">Loading team members...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Manager Activity Logs -->
+                    <div id="manager-activity-logs" class="manager-page" style="display:none">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Activity Logs</h1>
+                            <p style="color: #9CA3AF;">View team activity logs</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">ACTIVITY LOGS</h3>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>USER</th>
+                                        <th>ACTION</th>
+                                        <th>IP ADDRESS</th>
+                                        <th>TIME</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="manager-activity-logs-body">
+                                    <tr>
+                                        <td colspan="5" style="color: #9CA3AF; text-align: center;">Loading activity logs...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Manager Reports -->
+                    <div id="manager-reports" class="manager-page" style="display:none">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Reports</h1>
+                            <p style="color: #9CA3AF;">Generate and export reports</p>
+                        </div>
+                        <div style="display: flex; gap: 16px; margin-bottom: 24px;">
+                            <button class="btn btn-primary" onclick="showReport('task-completion')">TASK COMPLETION</button>
+                            <button class="btn btn-outline" onclick="showReport('user-activity')">USER ACTIVITY</button>
+                            <button class="btn btn-outline" onclick="showReport('login-activity')">LOGIN ACTIVITY</button>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title" id="report-title">SELECT A REPORT TYPE</h3>
+                                <div id="report-actions" style="display: none; gap: 12px;">
+                                    <button class="btn btn-outline btn-sm" onclick="exportReportCSV()">EXPORT CSV</button>
+                                    <button class="btn btn-outline btn-sm" onclick="exportReportPDF()">EXPORT PDF</button>
+                                </div>
+                            </div>
+                            <div id="report-content">
+                                <div style="text-align: center; padding: 40px; color: #9CA3AF;">
+                                    <p>Select a report type above to generate a report</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manager Notifications -->
+                    <div id="manager-notifications" class="manager-page" style="display:none">
+                        <div class="mb-8" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Notifications</h1>
+                                <p style="color: #9CA3AF;">View and manage notifications</p>
+                            </div>
+                            <button class="btn btn-outline" onclick="markAllNotificationsRead()">MARK ALL READ</button>
+                        </div>
+                        <div id="manager-notifications-body">
+                            <div style="text-align: center; padding: 40px; color: #9CA3AF;">
+                                <p>No notifications</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manager Profile -->
+                    <div id="manager-profile" class="manager-page" style="display:none">
+                        <div class="mb-8">
+                            <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">Profile</h1>
+                            <p style="color: #9CA3AF;">Manage your account settings</p>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">USER INFORMATION</h3>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 16px;">
+                                    <div class="flex gap-2">
+                                        <svg width="20" height="20" fill="none" stroke="#9d4edd" viewBox="0 0 24 24" style="flex-shrink: 0;">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm text-secondary">Name</p>
+                                            <p id="manager-profile-name-value">-</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <svg width="20" height="20" fill="none" stroke="#9d4edd" viewBox="0 0 24 24" style="flex-shrink: 0;">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm text-secondary">Email</p>
+                                            <p id="manager-profile-email-value">-</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <svg width="20" height="20" fill="none" stroke="#9d4edd" viewBox="0 0 24 24" style="flex-shrink: 0;">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm text-secondary">Role</p>
+                                            <p id="manager-profile-role-value">MANAGER</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <svg width="20" height="20" fill="none" stroke="#9d4edd" viewBox="0 0 24 24" style="flex-shrink: 0;">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm text-secondary">Account Created</p>
+                                            <p id="manager-profile-created-value">-</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">CHANGE PASSWORD</h3>
+                                </div>
+                                <form onsubmit="handleManagerChangePassword(event)">
+                                    <div class="input-group">
+                                        <label class="input-label">CURRENT PASSWORD</label>
+                                        <div class="input-wrapper">
+                                            <input type="password" class="input" id="manager-current-password" placeholder="********">
+                                            <button type="button" class="eye-toggle" onclick="togglePassword('manager-current-password', this)">
+                                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label">NEW PASSWORD</label>
+                                        <div class="input-wrapper">
+                                            <input type="password" class="input" id="manager-new-password" placeholder="********">
+                                            <button type="button" class="eye-toggle" onclick="togglePassword('manager-new-password', this)">
+                                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label">CONFIRM PASSWORD</label>
+                                        <div class="input-wrapper">
+                                            <input type="password" class="input" id="manager-confirm-password" placeholder="********">
+                                            <button type="button" class="eye-toggle" onclick="togglePassword('manager-confirm-password', this)">
+                                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">UPDATE PASSWORD</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -1105,7 +1803,7 @@
         </div>
     </div>
 
-        <script src="script.js?v=3"></script>
+        <script src="script.js"></script>
 </body>
 </html>
 

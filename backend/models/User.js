@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    unique: true,
+    sparse: true,
+    trim: true,
+  },
   name: {
     type: String,
     required: true,
@@ -19,6 +25,19 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 6,
     select: false,
+  },
+  fullName: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
+  lastLogin: {
+    type: Date,
+    default: null,
   },
   passwordChangedAt: {
     type: Date,
@@ -38,7 +57,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['manager', 'user'],
+    enum: ['admin', 'manager', 'user', 'superadmin'],
     default: 'user',
   },
   isBlocked: {
